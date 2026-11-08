@@ -1,0 +1,8 @@
+node_modules/
+.ketchup/
+.env
+.env.*
+!.env.example
+test-results/
+*.log
+.DS_Store
