@@ -1,0 +1,28 @@
+// Authored for Ketchup as an example of GPU health alert rules kept as code. It is not NorthMark code.
+// Each metric is one that NVIDIA DCGM Exporter 4.9.0 exports by default. Every limit comes from the
+// deploying team's own policy through FleetLimits, so this file sets no hardware thresholds.
+import { bytes, celsius, defineRule, hertz, ratio, watts, type Duration } from 'dcgm-exporter';
+
+/** Limits from the team's alerting policy, each in the unit its name states. */
+export interface FleetLimits {
+  gpuTemperatureCelsius: number;
+  memoryTemperatureCelsius: number;
+  boardPowerWatts: number;
+  idleUtilizationPercent: number;
+  framebufferUsedMiB: number;
+  smClockFloorHz: number;
+  sustainedFor: Duration;
+}
+
+export function gpuAlertRules(limits: FleetLimits) {
+  return [
+    defineRule({ name: 'GpuTemperatureHigh', metric: 'DCGM_FI_DEV_GPU_TEMP_CELSIUS', above: celsius(limits.gpuTemperatureCelsius), for: limits.sustainedFor, severity: 'critical', summary: 'GPU temperature is above the fleet limit' }),
+    defineRule({ name: 'GpuMemoryTemperatureHigh', metric: 'DCGM_FI_DEV_MEMORY_TEMP_CELSIUS', above: celsius(limits.memoryTemperatureCelsius), for: limits.sustainedFor, severity: 'critical', summary: 'GPU memory temperature is above the fleet limit' }),
+    defineRule({ name: 'GpuXidError', metric: 'DCGM_FI_DEV_XID_ERROR', above: 0, severity: 'critical', summary: 'GPU reported an XID error' }),
+    defineRule({ name: 'GpuRowRemapFailed', metric: 'DCGM_FI_DEV_ROW_REMAP_FAILED', above: 0, severity: 'critical', summary: 'GPU memory row remapping failed' }),
+    defineRule({ name: 'GpuBoardPowerHigh', metric: 'DCGM_FI_DEV_BOARD_POWER_WATTS', above: watts(limits.boardPowerWatts), for: limits.sustainedFor, severity: 'warning', summary: 'GPU board power is above the fleet limit' }),
+    defineRule({ name: 'GpuIdle', metric: 'DCGM_FI_DEV_GPU_UTIL_RATIO', below: ratio(limits.idleUtilizationPercent / 100), for: limits.sustainedFor, severity: 'warning', summary: 'GPU utilization is below the idle floor' }),
+    defineRule({ name: 'GpuFramebufferHigh', metric: 'DCGM_FI_DEV_FB_USED_BYTES', above: bytes(limits.framebufferUsedMiB * 1_048_576), for: limits.sustainedFor, severity: 'warning', summary: 'GPU framebuffer use is above the fleet limit' }),
+    defineRule({ name: 'GpuSmClockLow', metric: 'DCGM_FI_DEV_SM_CLOCK_HERTZ', below: hertz(limits.smClockFloorHz), for: limits.sustainedFor, severity: 'warning', summary: 'GPU SM clock is below the fleet floor' }),
+  ];
+}
