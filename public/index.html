@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f7f8fa">
+  <meta name="description" content="Ketchup finds the TypeScript code a dependency upgrade breaks, drafts a repair with NVIDIA Nemotron, and checks it with the compiler before you download a patch.">
+  <title>Ketchup: catch your code up with a dependency’s new API</title>
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/styles.css">
+  <script type="module" src="/app.js"></script>
+</head>
+<body>
+  <a href="#workspace" class="skip-link">Skip to project</a>
+  <header class="app-header"><div class="header-content">
+    <a class="brand" href="/" aria-label="Ketchup home"><svg class="brand-tomato" viewBox="0 0 32 32" aria-hidden="true"><path d="M3 15h4M1 21h5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M21 11C13 7 8 13 10 23c2 8 15 10 20 1 4-8-1-17-9-13Z" fill="currentColor"/><path d="m21 12-6-4 5 1 2-5 1 5 6-2-4 5-3-1-3 4Z" fill="#323e2b"/></svg><span>ketchup</span></a>
+    <div class="header-project"><label for="project-select">Project</label><select id="project-select" disabled><option>Opening…</option></select></div>
+  </div></header>
+  <main id="workspace" tabindex="-1"><div class="initial-state"><span class="loading-ring" aria-hidden="true"></span><h1>Opening Ketchup</h1></div></main>
+  <footer class="app-footer"><span id="model-status">Nemotron</span><button class="button-link" data-action="show-archive">Archived projects</button><span id="archive-project" class="footer-group" hidden><a id="export-report" class="button-link" href="#" download>Download handoff report (.md)</a><button class="button-link" data-action="export-input">Download project as bundle (.json)</button><button class="button-link" data-action="archive">Archive this project</button></span></footer>
+  <input id="import-file" type="file" accept=".json,application/json" hidden>
+  <div id="toast" class="toast" role="status" aria-live="polite" hidden></div>
+  <dialog id="modal"><div id="modal-content"></div></dialog>
+</body>
+</html>
