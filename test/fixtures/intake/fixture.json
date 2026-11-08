@@ -1,0 +1,60 @@
+{
+  "_note": "Authored test fixture for src/intake.ts. Package names use the unpublished @ketchup-fixture scope; nothing here is real package data. Tests write `project` to a temporary folder and serve `published` as locally built tarballs.",
+  "project": {
+    "package.json": "{\n  \"name\": \"rack-meter-dashboard\",\n  \"description\": \"Rack meter dashboard used by the intake tests.\",\n  \"dependencies\": { \"@ketchup-fixture/meter\": \"^1.0.0\" },\n  \"devDependencies\": { \"@ketchup-fixture/base\": \"1.0.0\" },\n  \"ketchup\": { \"intent\": \"Every rack reading must still reach the dashboard.\" }\n}\n",
+    "src/app.ts": "import { Meter } from '@ketchup-fixture/meter';\nimport { label } from './format.ts';\n\nexport const meter = new Meter();\nmeter.addReader((reading) => console.log(label(reading.value)));\n",
+    "src/format.ts": "export function label(value: number): string {\n  return `${value} W`;\n}\n",
+    "src/bad name.ts": "export const ignored = true;\n",
+    "src/globals.d.ts": "declare const RACK: string;\n",
+    "src/view.tsx": "export const view = 1;\n",
+    "dist/app.ts": "export const built = true;\n",
+    ".cache/stale.ts": "export const stale = true;\n",
+    ".env": "NOT_A_SECRET=fixture\n",
+    "README.md": "Fixture project.\n"
+  },
+  "installed": {
+    "@ketchup-fixture/meter": {
+      "package.json": "{ \"name\": \"@ketchup-fixture/meter\", \"version\": \"1.0.0\", \"types\": \"lib/index.d.ts\", \"dependencies\": { \"@ketchup-fixture/base\": \"^1.0.0\" } }\n",
+      "lib/index.d.ts": "export * from './meter.js';\nexport type { Unit } from './units';\n",
+      "lib/meter.d.ts": "import type { Reading } from '@ketchup-fixture/base';\nexport declare class Meter {\n  addReader(reader: (reading: Reading) => void): void;\n}\n",
+      "lib/units.d.ts": "export type Unit = 'W' | 'kW';\n",
+      "lib/unreached.d.ts": "export declare const unreached: true;\n",
+      "lib/index.js": "throw new Error('never executed');\n"
+    },
+    "@ketchup-fixture/base": {
+      "package.json": "{ \"name\": \"@ketchup-fixture/base\", \"version\": \"1.0.0\", \"types\": \"index.d.ts\" }\n",
+      "index.d.ts": "export interface Reading { value: number }\n"
+    }
+  },
+  "published": {
+    "@ketchup-fixture/meter": {
+      "1.0.0": "installed",
+      "1.1.0": {
+        "package.json": "{ \"name\": \"@ketchup-fixture/meter\", \"version\": \"1.1.0\", \"types\": \"lib/index.d.ts\", \"dependencies\": { \"@ketchup-fixture/base\": \"^1.0.0\" } }\n",
+        "lib/index.d.ts": "export declare class Meter {\n  addReader(reader: (reading: { value: number }) => void): void;\n}\n"
+      },
+      "2.0.0": {
+        "package.json": "{ \"name\": \"@ketchup-fixture/meter\", \"version\": \"2.0.0\", \"exports\": { \".\": { \"types\": \"./build/index.d.ts\", \"default\": \"./build/index.js\" } }, \"scripts\": { \"postinstall\": \"node evil.js\" }, \"dependencies\": { \"@ketchup-fixture/base\": \"^2.1.0 || ^3.0.0\" } }\n",
+        "build/index.d.ts": "export { Meter } from './meter';\n",
+        "build/meter.d.ts": "import type { Reading } from '@ketchup-fixture/base';\nimport type { Labels } from '@ketchup-fixture/base/labels';\nexport declare class Meter {\n  constructor(options?: { readers?: ((reading: Reading) => void)[]; labels?: Labels });\n}\n",
+        "build/index.js": "throw new Error('never executed');\n",
+        "evil.js": "throw new Error('never executed');\n"
+      }
+    },
+    "@ketchup-fixture/base": {
+      "1.0.0": "installed",
+      "2.0.0": { "package.json": "{ \"name\": \"@ketchup-fixture/base\", \"version\": \"2.0.0\", \"types\": \"index.d.ts\" }\n", "index.d.ts": "export interface Reading { value: number }\n" },
+      "2.1.0": { "package.json": "{ \"name\": \"@ketchup-fixture/base\", \"version\": \"2.1.0\", \"types\": \"index.d.ts\" }\n", "index.d.ts": "export interface Reading { value: number }\n" },
+      "2.3.0": {
+        "package.json": "{ \"name\": \"@ketchup-fixture/base\", \"version\": \"2.3.0\", \"types\": \"index.d.ts\" }\n",
+        "index.d.ts": "export interface Reading { value: number; unit: 'W' }\n",
+        "labels.d.ts": "export type Labels = Record<string, string>;\n"
+      },
+      "3.0.0-beta.1": { "package.json": "{ \"name\": \"@ketchup-fixture/base\", \"version\": \"3.0.0-beta.1\", \"types\": \"index.d.ts\" }\n", "index.d.ts": "export interface Reading { value: bigint }\n" },
+      "4.0.0": { "package.json": "{ \"name\": \"@ketchup-fixture/base\", \"version\": \"4.0.0\", \"types\": \"index.d.ts\" }\n", "index.d.ts": "export interface Reading { value: string }\n" }
+    },
+    "@ketchup-fixture/untyped": {
+      "1.0.0": { "package.json": "{ \"name\": \"@ketchup-fixture/untyped\", \"version\": \"1.0.0\", \"main\": \"index.js\" }\n", "index.js": "module.exports = 1;\n" }
+    }
+  }
+}
