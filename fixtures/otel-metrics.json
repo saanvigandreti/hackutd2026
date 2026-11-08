@@ -1,0 +1,31 @@
+{
+  "format": 1,
+  "name": "OpenTelemetry metrics upgrade",
+  "description": "OpenTelemetry SDK 2.0 removes addMetricReader. This authored registration function still uses it; move the reader into the MeterProvider constructor. The bundled declarations are selected, attributed excerpts of the published API, not the complete SDK.",
+  "dependency": {
+    "name": "@opentelemetry/sdk-metrics",
+    "before": {
+      "version": "1.30.1",
+      "entry": "index.d.ts",
+      "files": {
+        "index.d.ts": "// Derived declaration excerpt from @opentelemetry/sdk-metrics 1.30.1.\n// Copyright The OpenTelemetry Authors. SPDX-License-Identifier: Apache-2.0\n// Modified for Ketchup: selected registration/lifecycle signatures only; see docs/otel-sources.md.\nexport { MeterProvider } from './MeterProvider';\nexport type { MeterProviderOptions } from './MeterProvider';\nexport { MetricReader } from './export/MetricReader';\n",
+        "MeterProvider.d.ts": "// Derived declaration excerpt from @opentelemetry/sdk-metrics 1.30.1.\n// Copyright The OpenTelemetry Authors. SPDX-License-Identifier: Apache-2.0\n// Modified for Ketchup: selected registration/lifecycle signatures only; see docs/otel-sources.md.\nimport { MetricReader } from './export/MetricReader';\n\nexport interface MeterProviderOptions {\n    readers?: MetricReader[];\n}\n\nexport declare class MeterProvider {\n    constructor(options?: MeterProviderOptions);\n    addMetricReader(metricReader: MetricReader): void;\n}\n",
+        "export/MetricReader.d.ts": "// Derived declaration excerpt from @opentelemetry/sdk-metrics 1.30.1.\n// Copyright The OpenTelemetry Authors. SPDX-License-Identifier: Apache-2.0\n// Modified for Ketchup: selected registration/lifecycle signatures only; see docs/otel-sources.md.\nimport { ForceFlushOptions, ShutdownOptions } from '../types';\n\nexport declare abstract class MetricReader {\n    shutdown(options?: ShutdownOptions): Promise<void>;\n    forceFlush(options?: ForceFlushOptions): Promise<void>;\n}\n",
+        "types.d.ts": "// Derived declaration excerpt from @opentelemetry/sdk-metrics 1.30.1.\n// Copyright The OpenTelemetry Authors. SPDX-License-Identifier: Apache-2.0\n// Modified for Ketchup: selected registration/lifecycle signatures only; see docs/otel-sources.md.\nexport type CommonReaderOptions = { timeoutMillis?: number };\nexport type ShutdownOptions = CommonReaderOptions;\nexport type ForceFlushOptions = CommonReaderOptions;\n"
+      }
+    },
+    "after": {
+      "version": "2.0.0",
+      "entry": "index.d.ts",
+      "files": {
+        "index.d.ts": "// Derived declaration excerpt from @opentelemetry/sdk-metrics 2.0.0.\n// Copyright The OpenTelemetry Authors. SPDX-License-Identifier: Apache-2.0\n// Modified for Ketchup: selected registration/lifecycle signatures only; see docs/otel-sources.md.\nexport { MeterProvider } from './MeterProvider';\nexport type { MeterProviderOptions } from './MeterProvider';\nexport { MetricReader } from './export/MetricReader';\nexport type { IMetricReader } from './export/MetricReader';\n",
+        "MeterProvider.d.ts": "// Derived declaration excerpt from @opentelemetry/sdk-metrics 2.0.0.\n// Copyright The OpenTelemetry Authors. SPDX-License-Identifier: Apache-2.0\n// Modified for Ketchup: selected registration/lifecycle signatures only; see docs/otel-sources.md.\nimport { IMetricReader } from './export/MetricReader';\n\nexport interface MeterProviderOptions {\n    readers?: IMetricReader[];\n}\n\nexport declare class MeterProvider {\n    constructor(options?: MeterProviderOptions);\n}\n",
+        "export/MetricReader.d.ts": "// Derived declaration excerpt from @opentelemetry/sdk-metrics 2.0.0.\n// Copyright The OpenTelemetry Authors. SPDX-License-Identifier: Apache-2.0\n// Modified for Ketchup: selected registration/lifecycle signatures only; see docs/otel-sources.md.\nimport { ForceFlushOptions, ShutdownOptions } from '../types';\n\nexport interface IMetricReader {\n    shutdown(options?: ShutdownOptions): Promise<void>;\n    forceFlush(options?: ForceFlushOptions): Promise<void>;\n}\n\nexport declare abstract class MetricReader implements IMetricReader {\n    shutdown(options?: ShutdownOptions): Promise<void>;\n    forceFlush(options?: ForceFlushOptions): Promise<void>;\n}\n",
+        "types.d.ts": "// Derived declaration excerpt from @opentelemetry/sdk-metrics 2.0.0.\n// Copyright The OpenTelemetry Authors. SPDX-License-Identifier: Apache-2.0\n// Modified for Ketchup: selected registration/lifecycle signatures only; see docs/otel-sources.md.\nexport type CommonReaderOptions = { timeoutMillis?: number };\nexport type ShutdownOptions = CommonReaderOptions;\nexport type ForceFlushOptions = CommonReaderOptions;\n"
+      }
+    }
+  },
+  "sources": {
+    "src/metrics.ts": "import { MeterProvider, type MetricReader } from '@opentelemetry/sdk-metrics';\n\nexport function createMetricsProvider(reader: MetricReader): MeterProvider {\n  const provider = new MeterProvider();\n  provider.addMetricReader(reader);\n  return provider;\n}\n"
+  }
+}
