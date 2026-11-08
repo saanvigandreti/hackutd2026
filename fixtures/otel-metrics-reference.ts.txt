@@ -1,0 +1,5 @@
+import { MeterProvider, type MetricReader } from '@opentelemetry/sdk-metrics';
+
+export function createMetricsProvider(reader: MetricReader): MeterProvider {
+  return new MeterProvider({ readers: [reader] });
+}
