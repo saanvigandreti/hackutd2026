@@ -1,0 +1,24 @@
+{
+  "name": "ketchup-workbench",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Understand breaking API changes and review a migration before it touches your project.",
+  "engines": {
+    "node": ">=22.18.0"
+  },
+  "scripts": {
+    "start": "node --env-file-if-exists=.env src/main.ts",
+    "dev": "node --env-file-if-exists=.env --watch src/main.ts",
+    "typecheck": "tsc --noEmit",
+    "test": "node --test test/*.test.ts",
+    "check": "npm run typecheck && npm test"
+  },
+  "dependencies": {
+    "typescript": "5.9.3",
+    "zod": "3.25.76"
+  },
+  "devDependencies": {
+    "@types/node": "22.20.1"
+  }
+}
